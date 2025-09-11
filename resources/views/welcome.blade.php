@@ -127,7 +127,7 @@
             stroke: oklch(76.62% 0.166 68.76deg);
         }
         .star-rating-module--rating-number {
-            margin-inline-end: 0.4rem;
+            margin-inline-end: -0.4rem;
             color: oklch(46.68% 0.1161 51.53deg);
         }
         .star-rating-module--dark-background .star-rating-module--rating-number {
@@ -149,10 +149,30 @@
             <p>実務をする前に習得すべきLaravelを使った効率的で安全な開発</p>
             <div>
                 <div class="bestseller">Bestseller</div>
-                <a href="#reviews"><span class="star-rating-module--star-wrapper star-rating-module--medium star-rating-module--dark-background"><span class="ud-heading-sm star-rating-module--rating-number" aria-hidden="true" data-purpose="rating-number">4.5</span><svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 70 14" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="u62-star-rating-mask--3" data-purpose="star-rating-mask"><rect x="0" y="0" width="90%" height="100%" fill="white"></rect></mask><g class="star-rating-module--star-filled" mask="url(#u62-star-rating-mask--3)" data-purpose="star-filled"><use xlink:href="#icon-rating-star" width="14" height="14" x="0"></use><use xlink:href="#icon-rating-star" width="14" height="14" x="14"></use><use xlink:href="#icon-rating-star" width="14" height="14" x="28"></use><use xlink:href="#icon-rating-star" width="14" height="14" x="42"></use><use xlink:href="#icon-rating-star" width="14" height="14" x="56"></use></g><g fill="transparent" class="star-rating-module--star-bordered" stroke-width="80" data-purpose="star-bordered"><use xlink:href="#icon-rating-star" width="12" height="12" x="1" y="1"></use><use xlink:href="#icon-rating-star" width="12" height="12" x="15" y="1"></use><use xlink:href="#icon-rating-star" width="12" height="12" x="29" y="1"></use><use xlink:href="#icon-rating-star" width="12" height="12" x="43" y="1"></use><use xlink:href="#icon-rating-star" width="12" height="12" x="57" y="1"></use></g></svg></span> <span>(556 ratings)</span></a>
+                <span class="star-rating-module--star-wrapper star-rating-module--medium star-rating-module--dark-background">
+                    <span class="star-rating-module--rating-number" aria-hidden="true" data-purpose="rating-number">4.5</span>
+                    <svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 52 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="u62-star-rating-mask--3" data-purpose="star-rating-mask"><rect x="0" y="0" width="90%" height="100%" fill="white"></rect></mask>
+                        <g class="star-rating-module--star-filled" mask="url(#u62-star-rating-mask--3)" data-purpose="star-filled">
+                            <use xlink:href="#icon-rating-star" width="14" height="14" x="0"></use>
+                            <use xlink:href="#icon-rating-star" width="14" height="14" x="10"></use>
+                            <use xlink:href="#icon-rating-star" width="14" height="14" x="20"></use>
+                            <use xlink:href="#icon-rating-star" width="14" height="14" x="30"></use>
+                            <use xlink:href="#icon-rating-star" width="14" height="14" x="40"></use>
+                        </g>
+                        <g fill="transparent" class="star-rating-module--star-bordered" stroke-width="80" data-purpose="star-bordered">
+                            <use xlink:href="#icon-rating-star" width="12" height="12" x="1" y="1"></use>
+                            <use xlink:href="#icon-rating-star" width="12" height="12" x="11" y="1"></use>
+                            <use xlink:href="#icon-rating-star" width="12" height="12" x="21" y="1"></use>
+                            <use xlink:href="#icon-rating-star" width="12" height="12" x="31" y="1"></use>
+                            <use xlink:href="#icon-rating-star" width="12" height="12" x="41" y="1"></use>
+                        </g>
+                    </svg>
+                </span>
+                <a href="#reviews">(556 ratings)</a>
             </div>
             <div class="meta">
-                <div class="enrollment"><svg aria-hidden="true" focusable="false" class="ud-icon ud-icon-medium"><use xlink:href="#icon-people"></use></svg><span class="ud-heading-sm">3,389</span></div>
+                <div class="enrollment"><svg aria-hidden="true" focusable="false" class="ud-icon ud-icon-medium"><use xlink:href="#icon-people"></use></svg><span>3,389</span></div>
 
                 <div class="published-date"><svg><use xlink:href="#icon-schedule"></use></svg><span>Published 2022/03</span></div>
                 <div class="last-update-date"><svg><use xlink:href="#icon-new"></use></svg><span>Last updated 2025/6</span></div>
@@ -230,7 +250,7 @@
 </section>
 
 <footer>
-    <p>&copy; 2025 Udemy 講座LP クローンページ</p>
+    <p>&copy; 2025 Kent Koyama</p>
 </footer>
 
 </body>
