@@ -24,7 +24,8 @@ jobs:
           fi
 
       - name: Deploy
-        environment: ${{ env.environment }}
+        environment:
+          name: ${{ env.environment }}
         uses: deployphp/action@v1
         with:
           dep: "deploy ${{ steps.set_env.env.environment }}"
