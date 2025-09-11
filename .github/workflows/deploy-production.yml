@@ -16,8 +16,18 @@ jobs:
     environment:
       name: production
     steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+
+      - name: Install dependencies
+        run: composer install
+
       - name: Deploy
         uses: deployphp/action@v1
         with:
-          dep: "deploy ${{ steps.set_env.env.environment }}"
+          dep: "deploy production"
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
