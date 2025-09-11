@@ -1,0 +1,23 @@
+name: Deploy Laravel with Deployer
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+concurrency:
+  group: cd-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: Deploy
+        uses: deployphp/action@v1
+        with:
+          dep: "deploy ${{ steps.set_env.env.environment }}"
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
