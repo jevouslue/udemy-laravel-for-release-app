@@ -18,9 +18,10 @@
         @media screen and (max-width: 768px) {
             .md\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
         }
+        a { color: oklch(48.41% 0.2342 293.93deg); }
         header { background: #222; color: #fff; padding: 2rem 1rem; text-align: center; position: relative; }
         header img { width: 100%; max-width: 600px; height: auto; margin: auto; display: block; border-radius: 8px; }
-        header h1 { margin: 1rem 0 0.5rem; font-size: 1.4rem; }
+        header h1 { margin-bottom: .5rem; font-size: 1.4rem; }
         header p { margin: 1.5rem 0 2.5rem; font-size: 1rem; }
         header a { color: #c0c4fc; }
 
@@ -47,32 +48,29 @@
         .cta a { background: #6d28d2; color: #fff; padding: 1rem 1.5rem; border: none; display: block; border-radius: 4px; font-size: 1.1rem; cursor: pointer; text-decoration: none; transition: .3s; }
         .cta a:hover { background: #882de1; }
         header .container, section { padding: 2rem 1rem; max-width: 800px; margin: auto; }
+
+        @media screen and (max-width: 768px) {
+            header .container { padding: 0 1rem; }
+        }
         h2 { border-bottom: 3px solid #222; padding-bottom: 0.3em; margin-bottom: 1em; }
         ul { list-style: disc inside; margin-left: 1em; }
 
         /* 追加CSS（既存の style タグ内に追記） */
         .review-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(1, minmax(0, 1fr));
             gap: 1.5rem;
         }
         .review-card {
-            background: #ffffff;
+            background: #fff;
             border-radius: 10px;
-            padding: 1.2rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            padding: 1.2rem 1.7rem;
+            border: 1px solid #eee;
             position: relative;
             transition: transform 0.2s ease;
         }
         .review-card:hover {
             transform: translateY(-5px);
-        }
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            float: left;
-            margin-right: 0.8rem;
         }
         .review-name {
             font-weight: bold;
@@ -83,10 +81,23 @@
             margin: 0.3rem 0;
             font-size: 1.1rem;
         }
-        .review-card p {
-            clear: both;
-            margin-top: 0.5rem;
+        .review-body {
+            margin: 0;
             line-height: 1.5;
+        }
+        #reviews a {
+            margin-top: 2rem;
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            border: 1px solid oklch(48.41% 0.2342 293.93deg);
+            padding: 1rem;
+            border-radius: .4rem;
+            transition: .3s;
+        }
+        #reviews a:hover {
+            background:  color-mix(in oklch, oklch(48.41% 0.2342 293.93deg) 12%, transparent);
         }
 
 
@@ -132,6 +143,38 @@
         }
         .star-rating-module--dark-background .star-rating-module--rating-number {
             color: oklch(0.77 0.17 68.71);
+        }
+
+        /* 動画一覧セクション */
+        .video-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .video-item:hover {
+            background-color: #f0f0f0;
+        }
+        .video-item:last-child {
+            border-bottom: none;
+        }
+        .video-title {
+            font-size: .9rem;
+            color: #333;
+            opacity: 0.8;
+        }
+        .video-duration {
+            color: #777;
+            font-size: .9rem;
+        }
+
+        /* 章タイトル */
+        .chapter-title {
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            color: #333;
         }
     </style>
 </head>
@@ -200,11 +243,33 @@
 </section>
 
 <section>
-    <h2>受講対象</h2>
+    <h2>受講におすすめの方</h2>
     <ul>
-        <li>HTMLおよびPHPの基礎（変数・関数・クラス・名前空間など）が理解できている方</li>
-        <li>Laravelを効率的に学び、実務で活用したい方</li>
+        <li>PHPの基礎を学習を終えたばかりの人</li>
+        <li>これからPHPを使ったウェブサイト開発で副業をしようと思っている人</li>
+        <li>会社でLaravelを使ったプロジェクトを任された人</li>
+        <li>PHPで開発はできるけどもっと効率的な開発手法が知りたい人</li>
+        <li>Laravelの独学で諦めてしまった人</li>
     </ul>
+</section>
+
+
+<section>
+    <h2>講師紹介</h2>
+    <img src="https://img-c.udemycdn.com/user/200_H/96827346_7f68_2.jpg" alt="講師・Kent Koyama" class="instructor-img">
+    <p><strong>Kent Koyama</strong></p>
+    <p>
+        こんにちは！<br>
+        私は、ウェブ制作会社にて様々なウェブサイトやアプリのシステムを開発を行ってきました。<br>
+        現在もフリーランスとして鉄道会社や百貨店、複合施設のサイトやアプリ制作を行う傍ら、副業で大手オンラインプログラミングスクールで講師をしております<br>
+        <br>
+        <br>
+        プログラミングスクールでカリキュラムの最終課題を終えた生徒さんの成果物を見ると、確かに仕様通り動くものは作成できてはいるものの、「これでは公開できない」、「もっとこうすればいいのに」と思うことがたくさんありました。<br>
+        また、多くの生徒さんには「これまでの課題は作れたけど、実際の仕事では今の知識や技術だけで出来るのか？」「決められていたカリキュラムに沿って学習してきたので修了後は何をしたらいいのかわからない」といった共通の不安があり、基礎的な技術や知識が身についても実務に踏み出せないようでした
+        <br>
+        <br>
+        しかしながら0からプログラミングの基礎を身に着けた人にとっては、あと少しだけ頑張れば就職や転職、副業などの人生を大きく変えるきっかけになるのにもったいない、一つ一つしっかり押さえていけば難しいものではないので是非そのお手伝いをしたいと思いUdemyでも講師になってみました
+    </p>
 </section>
 
 <section>
@@ -212,41 +277,524 @@
     <p>この講座では、PHP基礎を学んだ方向けに、Laravel12をメインとして実務で役立つスキルを学べるよう設計されています。Docker環境構築からデータベース連携、認証、セキュリティ対策まで丁寧にサポート。Mac／Windows両環境対応で、実務を見据えたスキル習得が可能です。さらに、講師による迅速なQ&A対応も高評価のポイントです。</p>
 </section>
 
-<section>
-    <h2>講師紹介</h2>
-    <img src="https://img-c.udemycdn.com/user/200_H/96827346_7f68_2.jpg" alt="講師・Kent Koyama" class="instructor-img">
-    <p><strong>Kent Koyama</strong>（講師）</p>
-    <p>ウェブ制作やシステム開発（鉄道・百貨店など）の現場経験をもち、現在はフリーランス兼プログラミング講師として活動。実務で使えるスキルの習得と学習者の成長を重視する教育スタイルです。</p>
-</section>
+<!-- 各章の動画リスト -->
+<section class="video-list">
+    <h2>Course content</h2>
+    <p>17 sections • 63 lectures • 6h 11m total length</p>
 
+    <div class="chapter-title">紹介</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">コース紹介</div>
+        </div>
+        <div class="video-duration">02:51</div>
+    </div>
+
+    <div class="chapter-title">開発環境構築とプロジェクト作成(macOS)</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">Dockerのインストール</div>
+        </div>
+        <div class="video-duration">01:39</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">Laravelプロジェクト作成</div>
+        </div>
+        <div class="video-duration">05:54</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">sailコマンドの登録</div>
+        </div>
+        <div class="video-duration">02:57</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">日本用の初期設定</div>
+        </div>
+        <div class="video-duration">08:49</div>
+    </div>
+
+    <div class="chapter-title">開発環境構築とプロジェクト作成(Windows)</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">Dockerのインストール</div>
+        </div>
+        <div class="video-duration">02:42</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">Laravelプロジェクト作成</div>
+        </div>
+        <div class="video-duration">07:38</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">sailコマンドの登録</div>
+        </div>
+        <div class="video-duration">02:40</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">日本用の初期設定</div>
+        </div>
+        <div class="video-duration">08:49</div>
+    </div>
+
+    <div class="chapter-title">ルーティング</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ルーティング</div>
+        </div>
+        <div class="video-duration">02:57</div>
+    </div>
+
+    <div class="chapter-title">ビュー</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ビューファイルの目的と使い方</div>
+        </div>
+        <div class="video-duration">06:02</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">Bladeテンプレート</div>
+        </div>
+        <div class="video-duration">04:37</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">レイアウト</div>
+        </div>
+        <div class="video-duration">06:09</div>
+    </div>
+
+    <div class="chapter-title">コントローラ</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">コントローラの目的と使い方</div>
+        </div>
+        <div class="video-duration">10:08</div>
+    </div>
+
+    <div class="chapter-title">リクエスト</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">送信データの取得方法</div>
+        </div>
+        <div class="video-duration">07:44</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ルートパラメータ</div>
+        </div>
+        <div class="video-duration">03:52</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">名前付きルート</div>
+        </div>
+        <div class="video-duration">01:49</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">フォームとHTTPリクエストメソッド</div>
+        </div>
+        <div class="video-duration">06:50</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">リソースコントローラとリソースルート</div>
+        </div>
+        <div class="video-duration">04:30</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">リダイレクト</div>
+        </div>
+        <div class="video-duration">08:40</div>
+    </div>
+
+    <div class="chapter-title">セッション</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">セッションの目的と使い方</div>
+        </div>
+        <div class="video-duration">08:44</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">フラッシュメッセージ</div>
+        </div>
+        <div class="video-duration">03:35</div>
+    </div>
+
+    <div class="chapter-title">ファイル操作</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ファイルアップロード</div>
+        </div>
+        <div class="video-duration">07:55</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">アップロードした画像・動画の表示</div>
+        </div>
+        <div class="video-duration">07:28</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ファイルの削除</div>
+        </div>
+        <div class="video-duration">03:04</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ファイルのダウンロード</div>
+        </div>
+        <div class="video-duration">02:05</div>
+    </div>
+
+    <div class="chapter-title">ねこカフェ用プロジェクトの作成</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ねこカフェ用プロジェクトの作成</div>
+        </div>
+        <div class="video-duration">03:24</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">HTMLデータの利用方法</div>
+        </div>
+        <div class="video-duration">08:25</div>
+    </div>
+
+    <div class="chapter-title">バリデーション</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">フォーム入力内容の検証</div>
+        </div>
+        <div class="video-duration">07:33</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">電話番号のルール</div>
+        </div>
+        <div class="video-duration">04:43</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">エラーメッセージの表示</div>
+        </div>
+        <div class="video-duration">05:11</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">入力内容の再取得</div>
+        </div>
+        <div class="video-duration">02:01</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">エラーメッセージの日本語化</div>
+        </div>
+        <div class="video-duration">04:39</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">フォームリクエスト</div>
+        </div>
+        <div class="video-duration">06:10</div>
+    </div>
+
+    <div class="chapter-title">メール送信</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">定形メールの送信方法</div>
+        </div>
+        <div class="video-duration">15:25</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">メール内容の動的化</div>
+        </div>
+        <div class="video-duration">05:09</div>
+    </div>
+
+    <div class="chapter-title">リレーショナルデータベース</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">リレーショナルデータベースの概要</div>
+        </div>
+        <div class="video-duration">05:14</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">正規化</div>
+        </div>
+        <div class="video-duration">08:23</div>
+    </div>
+
+    <div class="chapter-title">Laravelでのデータベース操作</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">マイグレーション</div>
+        </div>
+        <div class="video-duration">08:06</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ロールバック</div>
+        </div>
+        <div class="video-duration">02:39</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">登録</div>
+        </div>
+        <div class="video-duration">13:19</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">取得</div>
+        </div>
+        <div class="video-duration">07:44</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">更新</div>
+        </div>
+        <div class="video-duration">05:12</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">削除</div>
+        </div>
+        <div class="video-duration">03:07</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">クエリビルダー</div>
+        </div>
+        <div class="video-duration">06:17</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ページネーション</div>
+        </div>
+        <div class="video-duration">03:18</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">モデルとルート</div>
+        </div>
+        <div class="video-duration">02:55</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">コレクション</div>
+        </div>
+        <div class="video-duration">01:54</div>
+    </div>
+
+    <div class="chapter-title">リレーション</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">リレーションの概要</div>
+        </div>
+        <div class="video-duration">05:21</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">リレーションの準備</div>
+        </div>
+        <div class="video-duration">14:32</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">1対多のリレーション</div>
+        </div>
+        <div class="video-duration">12:13</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">多対多のリレーション</div>
+        </div>
+        <div class="video-duration">13:37</div>
+    </div>
+
+    <div class="chapter-title">認証</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ユーザ登録</div>
+        </div>
+        <div class="video-duration">14:31</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ログイン処理</div>
+        </div>
+        <div class="video-duration">05:45</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">認証中ユーザの取得</div>
+        </div>
+        <div class="video-duration">06:52</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ログアウト処理</div>
+        </div>
+        <div class="video-duration">02:41</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">authミドルウェア</div>
+        </div>
+        <div class="video-duration">04:04</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">intendedメソッド</div>
+        </div>
+        <div class="video-duration">02:26</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">guestミドルウェア</div>
+        </div>
+        <div class="video-duration">04:58</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">ルートグループ</div>
+        </div>
+        <div class="video-duration">04:32</div>
+    </div>
+
+    <div class="chapter-title">付録</div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">XSS(クロスサイトスクリプティング)脆弱性</div>
+        </div>
+        <div class="video-duration">02:46</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">CSRF(クロスサイトリクエストフォージェリー)脆弱性</div>
+        </div>
+        <div class="video-duration">04:01</div>
+    </div>
+    <div class="video-item">
+        <div>
+            <div class="video-title">マスアサインメント脆弱性</div>
+        </div>
+        <div class="video-duration">02:41</div>
+    </div>
+
+
+</section>
 <section id="reviews">
     <h2>受講者の声</h2>
     <div class="review-grid">
         <div class="review-card">
-            <img src="https://via.placeholder.com/60x60?text=Y" alt="山田さんのアイコン" class="avatar">
-            <div class="review-name">山田 太郎 さん</div>
+            <div class="review-name">Y K さん</div>
             <div class="stars">★★★★★</div>
-            <p><strong>「Docker導入から認証まで、一貫して学べて実務感覚が身につきました。」</strong></p>
+            <p class="review-body">とても良い教材だと思いました。
+                Laravelの基礎をより強固にしたい方にオススメです。<br>
+                ==============================<br>
+                ・質問に対して、非常に丁寧且つスピーディーに回答して下さる<br>
+                不明点があった際にいくつか質問をさせていただきました。1日以内にとても丁寧に返答してくださり、大変助かりました。<br>
+                ・実装したコードについて、細かく説明される<br>
+                実装したコード1行1行に対して、どのような意味があるかしっかり説明されていて、わかりやすかったです。<br><br>
+                ・Laravelの深いところ（背景や理屈）を説明される<br>
+                Laravelには沢山の便利な機能があると思います。なぜが必要なのか、どのような仕組みで成り立っているのかなどが説明されていて、より深い理解に繋がりました。<br><br>
+                ・基礎から一歩踏み込んだ内容まで解説される<br>
+                リレーションやメール送信など、基礎の中では少し難しい内容に関しても、丁寧に解説されていました。ただし、初めてLaravelを学ぶ方にとっては、後半のレクチャーは難しいと感じると思います。<br><br>
+                ・use文を追加したことを動画内で表示される<br>
+                use文が不足していてエラーになることはよくあることだと思います。use文を追加したことを動画で表示されていたので、余計なエラーで躓くことは少なかったです。<br><br>
+                ・どこに対して実装しているのかわかりやすい<br>
+                コードの修正箇所に対して、赤枠で明示して下さっていたので、どの部分に対して実装しているのかわかりやすかったです。<br><br>
+                ・コマンド一覧やビューファイルがあらかじめ用意されている<br>
+                ターミナルで実行するコマンドや猫カフェサイトのビューファイル群があらかじめ用意されています。そのため、受講者はLaravelの実装に注力することができます。<br><br>
+                ・最新バージョンのLaravelに対応している<br>
+                私の投稿時点ではLaravel12が最新で、本教材はそのバージョンに対応しています。最新バージョンと旧バージョンの変更点について言及されているレクチャーもあり、良かったです。<br><br>
+                ・話が聞き取りやすい<br>
+                「えー」や「あー」などの口癖がないので、口頭で説明された内容も理解しやすかったです。<br>
+                ==============================<br>
+                長文になってしまい、すみません。<br>
+                個人的には満足のいく内容の教材でした。<br>
+                心から感謝申し上げます。</p>
         </div>
         <div class="review-card">
-            <img src="https://via.placeholder.com/60x60?text=H" alt="佐藤さんのアイコン" class="avatar">
-            <div class="review-name">佐藤 花子 さん</div>
-            <div class="stars">★★★★☆</div>
-            <p>「講師のレスポンスが早く、<strong>疑問を即解決</strong>できたのが助かりました。」</p>
-        </div>
-        <div class="review-card">
-            <img src="https://via.placeholder.com/60x60?text=J" alt="鈴木さんのアイコン" class="avatar">
-            <div class="review-name">鈴木 次郎 さん</div>
+            <div class="review-name">PFlove さん</div>
             <div class="stars">★★★★★</div>
-            <p>「セキュリティの説明がとてもクリアで、学びに深みが出ました。」</p>
+            <p class="review-body">独習PHPを一周した後に履修しました。<br>
+                すごく丁寧な造りをしていて、わかりやすかったです！<br>
+                何より、Q＆Aで輪をかけて丁寧にわからないところや詰まったところを教えていただけるので、投げ出さずに最後まで履修できました！<br>
+                個人的にまだPHP自体の理解が足りていないなと自覚できたので、もう一度独習PHPをやり直してから、この教材に戻ってこようと具体的な目標設定もできました。<br>
+                おすすめの講義です。</p>
         </div>
         <div class="review-card">
-            <img src="https://via.placeholder.com/60x60?text=S" alt="高橋さんのアイコン" class="avatar">
-            <div class="review-name">高橋 三郎 さん</div>
-            <div class="stars">★★★★☆</div>
-            <p>「学びの順序が自然で、<strong>迷うことなく</strong>最後まで進めました。」</p>
+            <div class="review-name">池山 亮 さん</div>
+            <div class="stars">★★★★★</div>
+            <p class="review-body">「laravelを学ぶならこの講座が一番です。<br>
+                セオリーから最新のlaravelまで網羅されていると思いました。</p>
+        </div>
+        <div class="review-card">
+            <div class="review-name">たつろう 2 さん</div>
+            <div class="stars">★★★★★</div>
+            <p class="review-body">素晴らしいコースと対応でやりきることができました。<br>
+                購入して良かったです。<br>
+                次回のコースがあればまた購入したいです。<br>
+                オブジェクト指向のクラスで少しかけるレベルで、Laravelがやりたいかたには非常におすすめです。<br>
+                よかったところ：<br>
+                ➀挫折しにくい<br>
+                初心者がはまりやすいところをスライドで事前に説明してくれています。<br>
+                コードの省略等細かく1つ1つわかるように解説されており、調べる時間をあまりつかわずにすみました。<br>
+                特にDBテーブルの正規化や中間テーブル作成とLaravelでのモデルリレーションはすごく勉強になりました。<br>
+                ➁説明がわかりやすかったです。<br>
+                ➂効率的で安全な開発方法<br>
+                ただ動作するだけでなく効率的（モデルリレーション等）<br>
+                で安全な（セキュリティ対策やバリデーション（正規表現）等）<br>
+                開発方法をしりたかったので良かったです。<br>
+                ➃対応が良い<br>
+                質問してもすぐにていねいにしっかりと対応していただきました。<br>
+                補足でコース以外のことも教えていただきありがとうございました。<br>
+                ➄余計なことがすくなくWEBサイト構築に必須な内容に集中できる。<br>
+                つくることに必要な内容がまとまっている。<br>
+                その内容も実践的で汎用性が高い。<br>
+                ➆Laravelが最高<br>
+                スクラッチで書いていたので大変で、よくある機能がたくさんあり<br>
+                都度つくっていたので感動でした。<br>
+                車輪の再発明をしなくて良い。</p>
+        </div>
+        <div class="review-card">
+            <div class="review-name">松田 泰治 さん</div>
+            <div class="stars">★★★★★</div>
+            <p class="review-body">講義内容は分かり易かったです！<br>
+                中級者向けのコースがリリースされましたら購入させていただこうと思います。<br>
+                また質問にも丁寧に対応いただけ助かりました。</p>
+        </div>
+        <div class="review-card">
+            <div class="review-name">川本 周平 さん</div>
+            <div class="stars">★★★★★</div>
+            <p class="review-body">非常に丁寧に説明がされており、とても勉強になりました。<br>
+                欲を言えば、Docker環境で開発したものを実際の本番環境に展開する方法もオマケ程度でいいので説明があったらうれしかったです<br>
+                （Docker初心者であり、そこが難解であったために過去Laravel学習を断念したものとしては）<br>
+                ただ、本題のLaravel学習としては非常にわかりやすく、丁寧であり、質問にも丁寧に対応してくださってすばらしかったです。</p>
+        </div>
+        <div class="review-card">
+            <div class="review-name">Miho さん</div>
+            <div class="stars">★★★★★</div>
+            <p class="review-body">Udemyで色々購入していますが、一番学習しやすかったです。また、Laravelの学習は他の動画でも試みたことはありましたが、難しくて途中で諦めてしまいました。もちろん、こちらの動画も簡単というわけではありませんが、非常に学習を進めやすい構成になっていると思います。<br>
+                また、つまづいた時の先生のサポートが本当に心強いです。過去の学習者の質問も参考にしながら、それでもわからない場合は先生に質問しましたが、本当に丁寧に回答していただけました。<br>
+                引き続き繰り返し視聴し、Laravelをモノにできるように頑張ります。先生ありがとうございました。</p>
         </div>
     </div>
+    <a href="https://www.udemy.com/course/laravel9/?referralCode=2C87AF8B5825D3BF9606#reviews">もっと見る</a>
 </section>
 
 <footer>
