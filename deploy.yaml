@@ -1,0 +1,23 @@
+import:
+  - recipe/laravel.php
+
+config:
+  repository: 'git@github.com:jevouslue/udemy-laravel-for-release-app.git'
+
+hosts:
+  production:
+    hostname: limebat15.sakura.ne.jp
+    remote_user: limebat15
+    deploy_path: ~/www
+
+tasks:
+  build:
+    - run: uptime
+  # 環境ごとの.envの転送
+  upload_env:
+    - upload:
+        src: '.env.{{alias}}'
+        dest: '{{deploy_path}}/shared/.env'
+
+after:
+  deploy:failed: deploy:unlock

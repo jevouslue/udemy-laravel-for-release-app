@@ -1,0 +1,31 @@
+name: Deploy Laravel with Deployer
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+concurrency:
+  group: cd-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set deployment environment
+        run: |
+          if [ "${GITHUB_REF}" = "refs/heads/dev" ]; then
+            echo "environment=staging" >> GITHUB_ENV
+          elif [ "${GITHUB_REF}" = "refs/heads/main" ]; then
+            echo "environment=production" >> GITHUB_ENV
+          fi
+
+      - name: Deploy
+        environment: ${{ env.environment }}
+        uses: deployphp/action@v1
+        with:
+          dep: "deploy ${{ steps.set_env.env.environment }}"
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
