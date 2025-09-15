@@ -16,9 +16,10 @@ jobs:
     environment:
       name: production
     steps:
+      - uses: actions/checkout@v5
+
       - name: Deploy
         uses: deployphp/action@v1
         with:
           dep: "deploy production"
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          deployer-version: v7.5.12
