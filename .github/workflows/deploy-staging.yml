@@ -1,25 +1,25 @@
-name: Deploy Laravel app with Deployer to production server
+name: Deploy Laravel app with Deployer to staging server
 
 on:
   push:
     branches:
-      - main
+      - dev
 
 concurrency:
-  group: cd-production
+  group: cd-staging
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: production
+      name: staging
     steps:
       - uses: actions/checkout@v5
 
       - name: Deploy
         uses: deployphp/action@v1
         with:
-          dep: "deploy production"
+          dep: "deploy staging"
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           deployer-version: v7.5.12
