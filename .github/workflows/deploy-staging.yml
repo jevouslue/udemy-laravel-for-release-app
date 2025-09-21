@@ -33,7 +33,6 @@ jobs:
 
   create_pr:
     permissions:
-      contents: read
       pull-requests: write
     # ブランチが作成されただけならスキップ
     if: ${{ !github.event.created }}
@@ -55,7 +54,6 @@ jobs:
       - name: check PR
         id: check_pr
         run: |
-          echo "count=$(gh pr list -B ${{ env.BASE_BRANCH }} -H ${{ github.ref_name }} --json 'id' -q '.[] | length')"
           echo "count=$(gh pr list -B ${{ env.BASE_BRANCH }} -H ${{ github.ref_name }} --json 'id' -q '.[] | length')" >> $GITHUB_OUTPUT
 
       # PRがまだなかったらghコマンドで生成
