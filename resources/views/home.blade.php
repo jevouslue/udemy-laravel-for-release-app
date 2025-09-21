@@ -373,12 +373,9 @@
 
     <div class="prizes">
         <h3>景品一覧</h3>
-        <div class="prize-item">🏆 特等: 商品券 10,000円</div>
-        <div class="prize-item">🥇 1等: 商品券 5,000円</div>
-        <div class="prize-item">🥈 2等: 商品券 1,000円</div>
-        <div class="prize-item">🥉 3等: お菓子セット</div>
-        <div class="prize-item">🎁 4等: ティッシュ</div>
-        <div class="prize-item">😅 残念: また挑戦してね</div>
+        @foreach($prizes as $prize)
+            <div class="prize-item">{{ $prize->icon }} {{ $prize->rank }}: {{ $prize->title }}</div>
+        @endforeach
     </div>
 
     <div class="garagara-machine">
@@ -399,31 +396,32 @@
 </div>
 
 <script>
-    const prizes = [
-        { title: '🏆 特等: 商品券 10,000円', color: '#FFD700', weight: 1 },
-        { title: '🥇 1等: 商品券 5,000円', color: '#C0C0C0', weight: 3 },
-        { title: '🥈 2等: 商品券 1,000円', color: '#CD7F32', weight: 8 },
-        { title: '🥉 3等: お菓子セット', color: '#FF69B4', weight: 15 },
-        { title: '🎁 4等: ティッシュ', color: '#87CEEB', weight: 25 },
-        { title: '😅 残念: また挑戦してね', color: '#BBBBBB', weight: 48 }
-    ];
+    const prizes = @json($prizes);
 
     let isSpinning = false;
 
     function getRandomPrize() {
-        const totalWeight = prizes.reduce((sum, prize) => sum + prize.weight, 0);
-        let random = Math.random() * totalWeight;
-
-        for (let prize of prizes) {
-            random -= prize.weight;
-            if (random <= 0) {
-                return prize;
-            }
-        }
-        return prizes[prizes.length - 1];
+        return fetch('/api/draw-lot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // body: JSON.stringify({ n: parseInt(n) })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .catch(error => {
+                const result = document.getElementById('result')
+                result.textContent = `エラーが発生しました`;
+                result.classList.add('show');
+            });
     }
 
-    function spinLottery() {
+    async function spinLottery() {
         if (isSpinning) return;
 
         isSpinning = true;
@@ -458,13 +456,12 @@
 
 
         // 景品決定
-        const selectedPrize = getRandomPrize();
+        const selectedPrize = await getRandomPrize();
 
         setTimeout(() => {
-
             // 玉の設定と転がりアニメーション
             ball.style.background = `radial-gradient(circle at 30% 30%, ${selectedPrize.color}, ${selectedPrize.color}dd)`;
-            ball.textContent = selectedPrize.title.split(':')[0].split(' ')[1] || '？';
+            ball.textContent = selectedPrize.rank || '？';
             ball.classList.add('rolling');
 
             setTimeout(() => {
@@ -476,7 +473,7 @@
                     spinButton.disabled = false;
                     isSpinning = false;
                 }, 300);
-            }, 3000);
+            }, 2000);
         }, 2700);
     }
 
