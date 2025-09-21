@@ -14,22 +14,22 @@ env:
   REVIEWER: jevouslue
 
 jobs:
-#  deploy:
-#    runs-on: ubuntu-latest
-#    environment:
-#      name: staging
-#    steps:
-#      - uses: actions/checkout@v5
-#
-#      - name: Deploy
-#        uses: deployphp/action@v1
-#        with:
-#          dep: "deploy staging"
-#          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          deployer-version: v7.5.12
-#
-#      - name: Maintenance mode
-#        run: php deployer.phar run "php artisan down --secret=${{ secrets.MAINTENANCE_ACCESS_TOKEN }}" staging
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Deploy
+        uses: deployphp/action@v1
+        with:
+          dep: "deploy staging"
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          deployer-version: v7.5.12
+
+      - name: Maintenance mode
+        run: php deployer.phar run "php artisan down --secret=${{ secrets.MAINTENANCE_ACCESS_TOKEN }}" staging
 
   create_pr:
     permissions:
@@ -37,7 +37,7 @@ jobs:
     # ブランチが作成されただけならスキップ
     if: ${{ !github.event.created }}
     runs-on: ubuntu-latest
-#    needs: deploy   # deploy が終わるまで待つ
+    needs: deploy   # deploy が終わるまで待つ
     env:
       # github-actions[bot]のトークンを使って作成するために設定
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
