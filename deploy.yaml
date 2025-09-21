@@ -14,6 +14,10 @@ hosts:
     hostname: staging.udemy-laravel-for-release.katalyst.jp
     remote_user: limebat15
     deploy_path: ~/www/staging.udemy-laravel-for-release.katalyst.jp
+    branch: dev
+#    shared_files:
+#      - .env
+#      - public/robots.txt
 
 tasks:
   build:
@@ -24,9 +28,10 @@ tasks:
     - upload:
         src: '.env.{{alias}}'
         dest: '{{deploy_path}}/shared/.env'
-  deploy:env:
+  decrypt_env:
     - desc: 環境に応じた.envの複合化
-    - run: 'pwd && {{bin/php}} {{release_or_current_path}}/artisan env:decrypt --env={{alias}}'
+    - run: '{{bin/php}} {{release_path}}/artisan env:decrypt --env={{alias}}'
 
 after:
+  deploy:vendors: decrypt_env
   deploy:failed: deploy:unlock
