@@ -423,8 +423,11 @@
 
     async function spinLottery() {
         if (isSpinning) return;
-
         isSpinning = true;
+
+        // 景品決定
+        const selectedPrize = await getRandomPrize();
+
         const spinButton = document.getElementById('spinButton');
         const drum = document.getElementById('drum');
         const ball = document.getElementById('ball');
@@ -454,9 +457,6 @@
             drum.classList.add('spinning');
         }, 150);
 
-
-        // 景品決定
-        const selectedPrize = await getRandomPrize();
 
         setTimeout(() => {
             // 玉の設定と転がりアニメーション
