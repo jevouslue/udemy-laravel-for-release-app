@@ -29,9 +29,12 @@ jobs:
           deployer-version: v7.5.12
 
       - name: Maintenance mode
-        run: php deployer.phar run "php artisan down --secret=${{ secrets.MAINTENANCE_KEY }}" staging
+        run: php deployer.phar run "php artisan down --secret=${{ secrets.MAINTENANCE_ACCESS_TOKEN }}" staging
 
   create_pr:
+    permissions:
+      contents: read
+      pull-requests: write
     # ブランチが作成されただけならスキップ
     if: ${{ !github.event.created }}
     runs-on: ubuntu-latest
