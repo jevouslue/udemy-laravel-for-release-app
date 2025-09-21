@@ -8,5 +8,4 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //})->middleware('auth:sanctum');
 
-
 Route::post('/draw-lot', [PrizeController::class, 'drawLot']);
