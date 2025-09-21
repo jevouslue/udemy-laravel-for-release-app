@@ -32,8 +32,6 @@ jobs:
 #        run: php deployer.phar run "php artisan down --secret=${{ secrets.MAINTENANCE_ACCESS_TOKEN }}" staging
 
   create_pr:
-    permissions:
-      pull-requests: write
     # ブランチが作成されただけならスキップ
     if: ${{ !github.event.created }}
     runs-on: ubuntu-latest
