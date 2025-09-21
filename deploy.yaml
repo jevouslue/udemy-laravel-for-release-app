@@ -15,8 +15,6 @@ hosts:
     remote_user: limebat15
     deploy_path: ~/www/staging.udemy-laravel-for-release.katalyst.jp
     branch: dev
-    after:
-      artisan:migrate: 'artisan:down --with-secret'
 #    shared_files:
 #      - .env
 #      - public/robots.txt
@@ -32,12 +30,6 @@ tasks:
         dest: '{{deploy_path}}/shared/.env'
   decrypt_env:
     - desc: 環境に応じた.envの複合化
-    - run: '{{bin/php}} {{release_path}}/artisan env:decrypt --env={{alias}}'
-    - run: 'mv {{release_path}}/.env.{{alias}} {{deploy_path}}/shared/.env'
-    - run: '{{bin/symlink}} {{deploy_path}}/shared/.env {{release_path}}/$file'
-  maintenance:
-    - desc: メンテナンスモード(ステージングのみ)
-
     - run: '{{bin/php}} {{release_path}}/artisan env:decrypt --env={{alias}}'
     - run: 'mv {{release_path}}/.env.{{alias}} {{deploy_path}}/shared/.env'
     - run: '{{bin/symlink}} {{deploy_path}}/shared/.env {{release_path}}/$file'
