@@ -3,21 +3,37 @@ import:
 
 config:
   repository: 'git@github.com:jevouslue/udemy-laravel-for-release-app.git'
+  keep_releases: 2
 
 hosts:
   production:
-    hostname: limebat15.sakura.ne.jp
+    hostname: udemy-laravel-for-release.katalyst.jp
     remote_user: limebat15
-    deploy_path: ~/www
+    deploy_path: ~/www/udemy-laravel-for-release.katalyst.jp
+  staging:
+    hostname: staging.udemy-laravel-for-release.katalyst.jp
+    remote_user: limebat15
+    deploy_path: ~/www/staging.udemy-laravel-for-release.katalyst.jp
+    branch: dev
+#    shared_files:
+#      - .env
+#      - public/robots.txt
 
 tasks:
   build:
     - run: uptime
-  # 環境ごとの.envの転送
   upload_env:
+    - desc: 環境に応じた.envの転送
+    - run: mkdir -p {{deploy_path}}/shared
     - upload:
         src: '.env.{{alias}}'
         dest: '{{deploy_path}}/shared/.env'
+  decrypt_env:
+    - desc: 環境に応じた.envの複合化
+    - run: '{{bin/php}} {{release_path}}/artisan env:decrypt --env={{alias}}'
+    - run: 'mv {{release_path}}/.env.{{alias}} {{deploy_path}}/shared/.env'
+    - run: '{{bin/symlink}} {{deploy_path}}/shared/.env {{release_path}}/$file'
 
 after:
+  deploy:vendors: decrypt_env
   deploy:failed: deploy:unlock

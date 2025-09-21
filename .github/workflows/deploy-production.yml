@@ -1,9 +1,8 @@
-name: Deploy Laravel with Deployer
+name: Deploy Laravel app with Deployer to production server
 
 on:
   push:
     branches:
-      - dev
       - main
 
 concurrency:

@@ -1,0 +1,62 @@
+name: Deploy Laravel app with Deployer to staging server
+
+on:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: cd-staging
+  cancel-in-progress: true
+
+env:
+  BASE_BRANCH: main
+  REVIEWER: jevouslue
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Deploy
+        uses: deployphp/action@v1
+        with:
+          dep: "deploy staging"
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          deployer-version: v7.5.12
+
+      - name: Maintenance mode
+        run: php deployer.phar run "php artisan down --secret=${{ secrets.MAINTENANCE_ACCESS_TOKEN }}" staging
+
+  create_pr:
+    permissions:
+      pull-requests: write
+    # ブランチが作成されただけならスキップ
+    if: ${{ !github.event.created }}
+    runs-on: ubuntu-latest
+    needs: deploy   # deploy が終わるまで待つ
+    env:
+      # github-actions[bot]のトークンを使って作成するために設定
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      # チェックアウト
+      - uses: actions/checkout@v5
+        with:
+          # PRのタイトルとかをコミット履歴から取得するので、
+          # fetch-depthを0に設定して全履歴を取得
+          fetch-depth: 0
+
+      # PRがすでに存在していないかのチェック
+      # gh pr listでbase/headのブランチが同じPR検索して判定
+      - name: check PR
+        id: check_pr
+        run: |
+          echo "count=$(gh pr list -B ${{ env.BASE_BRANCH }} -H ${{ github.ref_name }} --json 'id' -q '.[] | length')" >> $GITHUB_OUTPUT
+
+      # PRがまだなかったらghコマンドで生成
+      - name: Create PR
+        if: ${{ steps.check_pr.outputs.count == '' }}
+        run: gh pr create --fill -B ${{ env.BASE_BRANCH }} -r ${{ env.REVIEWER }}
