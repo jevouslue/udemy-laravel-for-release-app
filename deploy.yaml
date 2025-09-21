@@ -31,6 +31,8 @@ tasks:
   decrypt_env:
     - desc: 環境に応じた.envの複合化
     - run: '{{bin/php}} {{release_path}}/artisan env:decrypt --env={{alias}}'
+    - run: 'mv {{release_path}}/.env.{{alias}} {{deploy_path}}/shared/.env'
+    - run: '{{bin/symlink}} {{deploy_path}}/shared/.env {{release_path}}/$file'
 
 after:
   deploy:vendors: decrypt_env
