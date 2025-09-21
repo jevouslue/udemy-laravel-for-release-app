@@ -24,8 +24,5 @@ jobs:
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           deployer-version: v7.5.12
 
-      - name: Maintenance
-        uses: deployphp/action@v1
-        with:
-          dep: "run 'php artisan down --secret=${{ secrets.MAINTENANCE_KEY }}' staging"
-          deployer-version: v7.5.12
+      - name: Maintenance mode
+        run: php deployer.phar run "php artisan down --secret=${{ secrets.MAINTENANCE_KEY }}" staging
