@@ -466,7 +466,7 @@
 
             setTimeout(() => {
                 drum.classList.remove('spinning');
-                result.textContent = selectedPrize.title;
+                result.textContent = `${selectedPrize.icon} ${selectedPrize.rank}: ${selectedPrize.title}`;
                 result.classList.add('show');
 
                 setTimeout(() => {
