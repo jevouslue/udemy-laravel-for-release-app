@@ -425,9 +425,6 @@
         if (isSpinning) return;
         isSpinning = true;
 
-        // 景品決定
-        const selectedPrize = await getRandomPrize();
-
         const spinButton = document.getElementById('spinButton');
         const drum = document.getElementById('drum');
         const ball = document.getElementById('ball');
@@ -438,6 +435,9 @@
         spinButton.disabled = true;
         result.classList.remove('show');
         ball.classList.remove('rolling');
+
+        // 景品決定
+        const selectedPrize = await getRandomPrize();
 
         // ハンドルとハンドル軸の回転アニメーション
         handleAxis.style.transform = 'rotate(360deg)';
