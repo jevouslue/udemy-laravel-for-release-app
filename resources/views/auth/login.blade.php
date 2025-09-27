@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ログイン</title>
+    <style>
+        :root{
+            --bg: #f6f8fb;
+            --card: #ffffff;
+            --accent: #2563eb;
+            --error: #e60007;
+            --muted: #6b7280;
+            --radius: 12px;
+            --glass: rgba(255,255,255,0.6);
+            --shadow: 0 6px 24px rgba(20,25,35,0.08);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", "Yu Gothic", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Segoe UI", Roboto, "Arial";
+        }
+
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0;
+            background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 60%);
+            color:#0f172a;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:32px;
+        }
+        a { color: var(--accent); }
+
+        .wrap{
+            max-width:980px;
+            display:grid;
+            grid-template-columns: 1fr;
+            gap:28px;
+            align-items:center;
+        }
+
+        .card{
+            background:var(--card);
+            border-radius:var(--radius);
+            box-shadow:var(--shadow);
+        }
+
+        .message-box {
+            padding: 16px 28px;
+            background: #f0fdf4;
+            border: 1px solid #00a63d;
+            color: #00a63d;
+        }
+
+        .message-box p {margin: 0;}
+
+        .hero{
+            display:flex;
+            flex-direction:column;
+            gap:18px;
+            padding:28px;
+            min-height:360px;
+        }
+
+        .logo{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+
+        .logo .mark{
+            width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:12px;box-shadow:0 6px 18px rgba(37,99,235,0.18);
+        }
+
+        h1{margin:0;font-size:20px}
+        p.lead{margin:0;color:var(--muted);line-height:1.45}
+
+        .error-box {
+            margin-bottom: 8px;
+            border: 1px solid #ffa1a3;
+            background: #fef2f3;
+            border-radius: 8px;
+        }
+
+        .text-error {
+            color: var(--error);
+            margin: 12px;
+        }
+
+        /* form */
+        form{display:flex;flex-direction:column;gap:14px}
+
+        label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+
+        .field{
+            display:flex;flex-direction:column;gap:6px
+        }
+
+        input[type="email"],input[type="password"],input[type="text"]{
+            width:100%;padding:12px 14px;border-radius:10px;border:1px solid #e6e9ef;background:transparent;font-size:15px;outline:none;transition:box-shadow .15s,border-color .15s;
+        }
+        input:focus{box-shadow:0 6px 18px rgba(37,99,235,0.08);border-color:var(--accent)}
+        input:user-invalid{box-shadow:0 6px 18px rgba(37,99,235,0.08);border-color:var(--error)}
+
+        .password-row{position:relative;display:flex}
+        .password-row input{flex:1}
+        .toggle-visibility{
+            position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;padding:8px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--muted);
+        }
+
+        .row{display:flex;align-items:center;justify-content:space-between}
+        .checkbox{display:flex;gap:8px;align-items:center}
+        .checkbox input{width:16px;height:16px}
+        .forgot{font-size:13px;color:var(--accent);text-decoration:none}
+
+        button.primary{
+            width: 100%;border:0;padding:12px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#7c3aed);color:white;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 8px 30px rgba(37,99,235,0.12);
+        }
+
+        .alt{
+            display:flex;gap:10px;align-items:center;justify-content:center;margin-top:12px
+        }
+
+        .divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+        .divider:before,.divider:after{content:"";height:1px;background:#e6e9ef;flex:1;border-radius:2px}
+
+        .socials{display:flex;gap:10px}
+        .socials button{flex:1;padding:10px;border-radius:10px;border:1px solid #e6e9ef;background:transparent;font-weight:600;cursor:pointer}
+
+        .note{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
+        footer.small{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+    </style>
+</head>
+<body>
+<main class="wrap">
+    @if(session()->has('success'))
+    <div class="message-box card">
+        <p>{{ session('success') }}</p>
+    </div>
+    @endif
+
+    <section class="card hero" aria-labelledby="login-title">
+        <div class="logo">
+            <div class="mark">ララ<br>くじ</div>
+            <div>
+                <div style="font-weight:700">特賞当ててハワイに行こう! - ララくじ</div>
+                {{-- Todo: Udemyリンク、コース名--}}
+                <div style="font-size:12px;color:var(--muted)">Udeｍyの <a href="#" target="_blank">Laravel リリース編：作ったサイトを公開しよう!</a>の教材用サイト</div>
+            </div>
+        </div>
+
+        <div style="margin-top:8px">
+            <h1 id="login-title">ようこそ — サインインしてください</h1>
+            <p class="lead">メールアドレスとパスワードでログイン。アカウントがない場合はサインアップしてください。</p>
+        </div>
+
+        @if($errors->any())
+            <div class="error-box">
+                <p class="text-error">ログインに失敗しました</p>
+            </div>
+        @endif
+
+        <form action="{{ route('login') }}" method="POST" id="loginForm" novalidate>
+            @csrf
+            <div class="field">
+                <label for="email">メールアドレス</label>
+                <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required value="{{ old('email') }}" />
+            </div>
+
+            <div class="field">
+                <label for="password">パスワード</label>
+                <div class="password-row">
+                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="パスワード" required minlength="8" />
+                    <button type="button" class="toggle-visibility" aria-pressed="false" id="togglePwd" aria-label="パスワード表示切替">表示</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <label class="checkbox"><input type="checkbox" id="remember" name="remember" value="1" @checked(old('remember')) /><span style="font-size:13px;color:var(--muted)">ログイン状態を保持</span></label>
+                {{-- Todo: パスワードを忘れた場合のリンク設定 --}}
+                <a class="forgot" href="{{ route('password.request') }}">パスワードを忘れた?</a>
+            </div>
+
+            <div>
+                <button class="primary" type="submit">ログイン</button>
+                <div class="alt">
+                    <div class="divider">または</div>
+                </div>
+            </div>
+
+            <div class="socials" style="margin-top:8px">
+                {{-- Todo: OAuth Googleのリンク設定 --}}
+                <button type="button" aria-label="ログイン with Google">Googleでログイン</button>
+                {{-- Todo: OAuth GitHubのリンク設定 --}}
+                <button type="button" aria-label="ログイン with GitHub">GitHubでログイン</button>
+            </div>
+
+            <div class="note">まだアカウントをお持ちでないですか？ <a href="{{ route('account.create') }}" style="color:var(--accent);font-weight:600">サインアップ</a></div>
+        </form>
+
+        <footer class="small">&copy; <span id="year">2025</span> Kent Koyama</footer>
+    </section>
+</main>
+
+<script>
+    // 年号を自動挿入
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // パスワード表示切替
+    const toggle = document.getElementById('togglePwd');
+    const pwd = document.getElementById('password');
+    toggle.addEventListener('click', ()=>{
+        const isPassword = pwd.type === 'password';
+        pwd.type = isPassword ? 'text' : 'password';
+        toggle.textContent = isPassword ? '非表示' : '表示';
+        toggle.setAttribute('aria-pressed', String(isPassword));
+    });
+
+    // シンプルなクライアントバリデーション
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', ()=>{
+        // HTML5 validity を活用
+        if(!form.checkValidity()){
+            e.preventDefault()
+            // フォーカス可能な最初の無効要素へ
+            const firstInvalid = form.querySelector(':invalid');
+            if(firstInvalid) firstInvalid.focus();
+            return false;
+        }
+    });
+</script>
+</body>
+</html>
