@@ -112,4 +112,9 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+
+    'verification' => [
+        // メールアドレス確認用リンクの有効期限(分)
+        'expire' => 60
+    ]
 ];

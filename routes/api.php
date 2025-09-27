@@ -8,4 +8,8 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //})->middleware('auth:sanctum');
 
-Route::post('/draw-lot', [PrizeController::class, 'drawLot']);
+// 認証済みユーザでログイン時のみアクセス可能なルート
+Route::middleware(['auth:sanctum', 'verified'])
+    ->group(function () {
+        Route::post('/draw-lot', [PrizeController::class, 'drawLot']);
+    });

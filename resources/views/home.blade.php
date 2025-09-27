@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ガラガラ抽選アプリ</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>特賞当ててハワイに行こう! - ララくじ</title>
     <style>
         body {
             margin: 0;
@@ -369,7 +370,7 @@
 </head>
 <body>
 <div class="lottery-container">
-    <h1>🎊 ガラガラ抽選 🎊</h1>
+    <h1>🎊 ララくじ 🎊</h1>
 
     <div class="prizes">
         <h3>景品一覧</h3>
@@ -392,37 +393,36 @@
 
     <button class="spin-button" id="spinButton">ハンドルを回す！</button>
 
+    <p>今日はあと <span id="remainingNumberOfDrawing"></span>回まわせるよ</p>
+
     <div class="result" id="result"></div>
 </div>
 
 <script>
     const prizes = @json($prizes);
-
     let isSpinning = false;
 
     function getRandomPrize() {
         return fetch('/api/draw-lot', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            // body: JSON.stringify({ n: parseInt(n) })
         })
             .then(response => {
+                if (response.status === 403) {
+                    throw new Error('今日はおしまい。また明日！');
+                }
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('エラーが発生しました');
                 }
                 return response.json();
             })
-            .catch(error => {
-                const result = document.getElementById('result')
-                result.textContent = `エラーが発生しました`;
-                result.classList.add('show');
-            });
     }
 
     async function spinLottery() {
-        if (isSpinning) return;
+        if (isSpinning || !canDraw()) return;
         isSpinning = true;
 
         const spinButton = document.getElementById('spinButton');
@@ -436,47 +436,69 @@
         result.classList.remove('show');
         ball.classList.remove('rolling');
 
-        // 景品決定
-        const selectedPrize = await getRandomPrize();
+        try{
+            // 景品決定
+            const data = await getRandomPrize();
+            const selectedPrize = data.prize;
 
-        // ハンドルとハンドル軸の回転アニメーション
-        handleAxis.style.transform = 'rotate(360deg)';
-        handleAxis.style.transition = 'transform 1.0s cubic-bezier(.44,.03,.22,.58)';
-        handle.style.transform = 'rotate(-355deg)';
-        handle.style.transition = 'transform 1.0s cubic-bezier(.44,.03,.22,.58)';
-
-        setTimeout(() => {
-            handleAxis.style.transform = 'rotate(0deg)';
-            handleAxis.style.transition = '';
-            handle.style.transform = 'rotate(5deg)';
-            handle.style.transition = '';
-        }, 1000);
-
-        setTimeout(() => {
-            // ドラム回転
-            drum.classList.add('spinning');
-        }, 150);
-
-
-        setTimeout(() => {
-            // 玉の設定と転がりアニメーション
-            ball.style.background = `radial-gradient(circle at 30% 30%, ${selectedPrize.color}, ${selectedPrize.color}dd)`;
-            ball.textContent = selectedPrize.rank || '？';
-            ball.classList.add('rolling');
+            // ハンドルとハンドル軸の回転アニメーション
+            handleAxis.style.transform = 'rotate(360deg)';
+            handleAxis.style.transition = 'transform 1.0s cubic-bezier(.44,.03,.22,.58)';
+            handle.style.transform = 'rotate(-355deg)';
+            handle.style.transition = 'transform 1.0s cubic-bezier(.44,.03,.22,.58)';
 
             setTimeout(() => {
-                drum.classList.remove('spinning');
-                result.textContent = `${selectedPrize.icon} ${selectedPrize.rank}: ${selectedPrize.title}`;
-                result.classList.add('show');
+                handleAxis.style.transform = 'rotate(0deg)';
+                handleAxis.style.transition = '';
+                handle.style.transform = 'rotate(5deg)';
+                handle.style.transition = '';
+            }, 1000);
+
+            setTimeout(() => {
+                // ドラム回転
+                drum.classList.add('spinning');
+            }, 150);
+
+            setTimeout(() => {
+                // 玉の設定と転がりアニメーション
+                ball.style.background = `radial-gradient(circle at 30% 30%, ${selectedPrize.color}, ${selectedPrize.color}dd)`;
+                ball.textContent = selectedPrize.rank || '？';
+                ball.classList.add('rolling');
 
                 setTimeout(() => {
-                    spinButton.disabled = false;
-                    isSpinning = false;
-                }, 300);
-            }, 2000);
-        }, 2700);
+                    drum.classList.remove('spinning');
+                    result.textContent = `${selectedPrize.icon} ${selectedPrize.rank}: ${selectedPrize.title}`;
+                    result.classList.add('show');
+                    updateRemainingNumberOfDrawing(data.remainingNumberOfDrawing)
+
+                    setTimeout(() => {
+                        isSpinning = false;
+                    }, 300);
+                }, 2000);
+            }, 2700);
+        }catch (error) {
+            const result = document.getElementById('result')
+            result.textContent = error.message;
+            result.classList.add('show');
+        }
     }
 
+    function updateRemainingNumberOfDrawing(remain) {
+        const remainingNumberOfDrawing = document.getElementById('remainingNumberOfDrawing');
+        remainingNumberOfDrawing.textContent = remain
+
+        const spinButton = document.getElementById('spinButton');
+        spinButton.disabled = (remain < 1);
+    }
+
+    function canDraw() {
+        const remainingNumberOfDrawing = document.getElementById('remainingNumberOfDrawing');
+        const remain = parseInt(remainingNumberOfDrawing.textContent)
+        return (remain >= 1);
+    }
+
+
+    updateRemainingNumberOfDrawing({{ $remainingNumberOfDrawing }});
     // イベントリスナー
     document.getElementById('spinButton').addEventListener('click', spinLottery);
     document.getElementById('handle').addEventListener('click', spinLottery);
